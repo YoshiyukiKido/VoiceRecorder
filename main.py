@@ -25,7 +25,6 @@ def upload():
     print(f"posted sound file: {fname}")
     return render_template('index.html', request="POST")   
 
-
 if __name__ == "__main__":
     app.debug=True
     app.threaded=True
