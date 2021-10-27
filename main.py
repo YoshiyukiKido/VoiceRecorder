@@ -6,6 +6,7 @@ from flask import render_template
 from werkzeug.utils import secure_filename
 import os
 import datetime
+import speech_recognition as sr
 
 ALLOWED_EXTENSIONS = set(['jpg', 'avi', 'mp4', 'webm', 'wav'])
 
@@ -19,10 +20,22 @@ def index():
 
 @app.route("/upload", methods=['POST'])
 def upload():
-    fname = "uploads/" + datetime.datetime.now().strftime('%m%d%H%M%S') + ".wav"
+    basename = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+    fname = "uploads/" + basename + ".wav"
+    tname = "uploads/" + basename + ".txt"
     with open(f"{fname}", "wb") as f:
         f.write(request.files['audio_data'].read())
     print(f"posted sound file: {fname}")
+
+    r = sr.Recognizer()
+    with sr.AudioFile(f"{fname}") as source:
+        audio = r.record(source)
+    text = r.recognize_google(audio, language='ja-JP')
+    print(text)
+
+    with open(f"{tname}", "a") as f:
+        f.write(text)
+
     return render_template('index.html', request="POST")   
 
 if __name__ == "__main__":
