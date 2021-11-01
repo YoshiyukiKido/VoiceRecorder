@@ -1,4 +1,4 @@
-# VoiceRecorder App via Web Browser
+# VoiceRecorder and Text App via Web Browser
 This is a simple voice recorder application via web browser on Smart Phone or PC.
 You can get record wav files and upload this wav files to web server.
 
